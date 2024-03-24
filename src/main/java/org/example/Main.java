@@ -1,14 +1,18 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        List<Post> posts = new ArrayList<>();
+
         System.out.println("== 프로그램을 시작합니다 ! ==");
         Scanner sc = new Scanner(System.in);
         int lastPostId = 0;
         while (true){
-            System.out.println("명령어 입력 : ");
+            System.out.print("명령어 입력 : ");
             String cmd = sc.nextLine();
 
             if (cmd.length() == 0){
@@ -18,6 +22,7 @@ public class Main {
             if (cmd.equals("exit")){
                 break;
             }
+
             else if(cmd.equals("post write")){
                 int id = lastPostId + 1;
                 lastPostId = id;
@@ -27,10 +32,44 @@ public class Main {
                 String body = sc.nextLine();
 
                 Post post = new Post(id, title, body);
+                posts.add(post);
                 System.out.println("게시물이 작성되었습니다.");
             }
             else if(cmd.equals("post list")){
-                System.out.println("게시물이 존재하지 않습니다.");
+                if (posts.size() == 0){
+                    System.out.println("게시물이 존재하지 않습니다.");
+                    continue;
+                }
+                else {
+                    System.out.println("번호 | 제목");
+                    for(int i = 0; i<posts.size(); i++){
+                        Post post = posts.get(i);
+
+                        System.out.printf("%4d | %4s\n",post.id,post.title);
+                    }
+                }
+            }
+            else if (cmd.startsWith("post detail")){
+                String[] cmdBits = cmd.split(" ");
+                int id = Integer.parseInt(cmdBits[2]);
+                Post foundPost = null;
+
+                for (int i =0; i<posts.size(); i++) {
+                    Post post = posts.get(i);
+
+                    if(post.id == id){
+                        foundPost = post;
+                        break;
+                    }
+                }
+
+                if (foundPost == null){
+                    System.out.println("존재하지 않는 게시물 입니다.");
+                    continue;
+                }
+                System.out.printf("번호 : %d\n", foundPost.id);
+                System.out.printf("제목 : %s\n", foundPost.title);
+                System.out.printf("내용 : %s\n", foundPost.body);
             }
 
             else{
