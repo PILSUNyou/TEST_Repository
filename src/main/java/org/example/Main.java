@@ -72,6 +72,25 @@ public class Main {
                 System.out.printf("내용 : %s\n", foundPost.body);
             }
 
+            else if (cmd.startsWith("post delete")){
+                String[] cmdBits = cmd.split(" ");
+                int id = Integer.parseInt(cmdBits[2]);
+                int foundIndex = -1;
+
+                for (int i = 0; i< posts.size(); i++){
+                    Post post = posts.get(i);
+
+                    if(post.id == id){
+                        foundIndex = i;
+                        break;
+                    }
+                }
+                if (foundIndex == -1){
+                    System.out.println("존재하지 않는 게시물 입니다.");
+                }
+                posts.remove(foundIndex);
+                System.out.printf("%s번 게시물이 삭제 되었습니다.\n", id);
+            }
             else{
                 System.out.println("잘못된 입력입니다.");
                 continue;
