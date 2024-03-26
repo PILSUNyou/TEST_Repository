@@ -39,11 +39,11 @@ public class Main {
                     System.out.println("게시물이 존재하지 않습니다.");
                     continue;
                 } else {
-                    System.out.println("번호 | 제목");
+                    System.out.println("번호 | 조회 | 제목");
                     for (int i = 0; i < posts.size(); i++) {
                         Post post = posts.get(i);
 
-                        System.out.printf("%4d | %4s\n", post.id, post.title);
+                        System.out.printf("%4d | %4d | %4s\n", post.id, post.hit,post.title);
                     }
                 }
             } else if (cmd.startsWith("post detail")) {
@@ -64,10 +64,12 @@ public class Main {
                     System.out.println("존재하지 않는 게시물 입니다.");
                     continue;
                 }
+                foundPost.increaseHit();
                 System.out.printf("번호 : %d\n", foundPost.id);
                 System.out.printf("날짜 : %s\n", foundPost.regDate);
                 System.out.printf("제목 : %s\n", foundPost.title);
                 System.out.printf("내용 : %s\n", foundPost.body);
+                System.out.printf("조회 : %d\n", foundPost.hit);
             } else if (cmd.startsWith("post delete")) {
                 String[] cmdBits = cmd.split(" ");
                 int id = Integer.parseInt(cmdBits[2]);
@@ -117,6 +119,7 @@ public class Main {
                 System.out.println("잘못된 입력입니다.");
                 continue;
             }
+
         }
         sc.close();
         System.out.println("== 프로그램을 종료합니다 ! ==");
