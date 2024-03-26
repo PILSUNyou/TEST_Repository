@@ -3,15 +3,18 @@ package org.example;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.StreamSupport;
 
 public class Main {
+    private static List<Post> posts;
+    static {
+        posts = new ArrayList<>();
+    }
     public static void main(String[] args) {
-        List<Post> posts = new ArrayList<>();
-
         System.out.println("== 프로그램을 시작합니다 ! ==");
+
+        makeTestData();
         Scanner sc = new Scanner(System.in);
-        int lastPostId = 0;
+
         while (true) {
             System.out.print("명령어 입력 : ");
             String cmd = sc.nextLine();
@@ -23,8 +26,7 @@ public class Main {
             if (cmd.equals("exit")) {
                 break;
             } else if (cmd.equals("post write")) {
-                int id = lastPostId + 1;
-                lastPostId = id;
+                int id = posts.size() + 1;
                 String  regDate = util.getNowDateStr();
                 System.out.print("게시글의 제목을 입력해주세요 : ");
                 String title = sc.nextLine();
@@ -124,5 +126,12 @@ public class Main {
         sc.close();
         System.out.println("== 프로그램을 종료합니다 ! ==");
 
+    }
+
+    private static void makeTestData() {
+        System.out.println("테스트를 위한 게시물데이터를 생성합니다.");
+        posts.add(new Post(1,util.getNowDateStr(), "제목 1", "내용 1"));
+        posts.add(new Post(2,util.getNowDateStr(), "제목 2", "내용 2"));
+        posts.add(new Post(3,util.getNowDateStr(), "제목 3", "내용 3"));
     }
 }
